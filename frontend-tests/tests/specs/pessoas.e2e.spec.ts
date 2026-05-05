@@ -6,19 +6,28 @@ test.describe('Categoria pessoas', () => {
     await basePage.goto('/');
   });
 
+  test('Adicionar pessoa com sucesso', async ({ homePage, pessoasPage }) => {
+    await homePage.clicarPessoas();
+    await pessoasPage.clicarAdicionarPessoa();
+    await pessoasPage.preencherNovaPessoa('Renato','1995-08-10');
+    await pessoasPage.clicarEmSalvar();
+    await pessoasPage.validarMensagemPessoaCadastrada();
+  });
 
   test('Adicionar pessoa com nome em branco', async ({ homePage, pessoasPage }) => {
     await homePage.clicarPessoas();
+    await pessoasPage.clicarAdicionarPessoa();
     await pessoasPage.preencherNovaPessoa('','1995-08-10');
     await pessoasPage.clicarEmSalvar();
     await pessoasPage.validarMensagemNomeObrigatorio();
   });
 
-  test('Erro ao adicionar uma pessoa', async ({ homePage, pessoasPage }) => {
+  test('Atualizar Pessoa', async ({ homePage, pessoasPage }) => {
     await homePage.clicarPessoas();
-    await pessoasPage.preencherNovaPessoa('Renato','1995-08-10');
+    await pessoasPage.clicarEditarPorNome('AAA');
+    await pessoasPage.preencherNovaPessoa('AAARenato','1995-08-10');
     await pessoasPage.clicarEmSalvar();
-    await pessoasPage.validarMensagemErroAoSalvar();
+    await pessoasPage.validarMensagemPessoaAtualizada();
   });
    
 });

@@ -67,6 +67,7 @@ public class CategoriasIntegrationTests
 
         Assert.True(root.TryGetProperty("id", out var idProp), "Resposta não contém 'id'.");
         Assert.False(string.IsNullOrWhiteSpace(idProp.GetString()));
+        Assert.True(Guid.TryParse(idProp.GetString(), out _), "Id retornado não é um GUID válido.");
 
         Assert.Equal("Alimentacao", root.GetProperty("descricao").GetString());
         Assert.Equal(0, root.GetProperty("finalidade").GetInt32());
@@ -88,7 +89,15 @@ public class CategoriasIntegrationTests
         Console.WriteLine(body);
 
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
-        Assert.Contains("Descricao", body, StringComparison.OrdinalIgnoreCase);
+
+        var json = JsonSerializer.Deserialize<JsonElement>(body);
+
+        var mensagem = json
+        .GetProperty("errors")
+        .GetProperty("Descricao")[0]
+        .GetString();
+
+        Assert.Contains("obrigat", mensagem, StringComparison.OrdinalIgnoreCase);
     }
 
     [Fact]
