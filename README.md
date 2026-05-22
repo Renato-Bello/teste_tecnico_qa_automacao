@@ -46,8 +46,9 @@ O objetivo foi validar a aplicação fornecida, criando testes automatizados em 
 ### 🔹 Testes End-to-End (E2E)
 - Navegação entre páginas
 - Criação de transações
+- Cenários positivos para criação de categorias e pessoas
 - Validação de exibição no dashboard
-- Validação de mensagens quando não há dados
+- Validação de mensagens em cenários negativos
 - Interações com elementos da interface
 
 ---
@@ -183,31 +184,13 @@ Durante a execução dos testes, foram identificadas inconsistências no tratame
 
 - A API retorna status **500 (Internal Server Error)** em cenários de entrada inválida, indicando ausência de tratamento adequado de exceções (esperado: 400 - Bad Request)
 - Falta de validação consistente dos dados recebidos, permitindo que entradas inválidas cheguem às camadas internas da aplicação
-- No frontend, os erros são apresentados de forma genérica (ex: "Erro ao salvar pessoa"), sem detalhamento da causa, prejudicando a experiência do usuário e o diagnóstico de falhas
 
 ---
 
 
 ## 🔍 Observações Técnicas
 
-Durante a execução dos testes, foram identificadas inconsistências entre o comportamento da API e o frontend.
-
-Alguns fluxos que funcionam corretamente via API não apresentam o mesmo comportamento no frontend, como:
-
-- Cadastro de pessoas
-- Cadastro de categorias
-
-Ao realizar essas ações pela interface, são exibidas mensagens de erro como:
-> "Erro ao salvar pessoa. Tente novamente."
-
-Uma possível causa para esse comportamento é a divergência de configuração entre as portas utilizadas:
-
-- API em execução local: http://localhost:5135
-- Frontend configurado para consumir: http://localhost:5000
-
----
-
-Além disso, também foram realizados testes de integração utilizando o Postman, por meio da criação de collections e requests para os principais endpoints da API.
+Foram realizados testes de integração utilizando o Postman, por meio da criação de collections e requests para os principais endpoints da API.
 
 Para isso, foi utilizada a documentação disponibilizada via Swagger, que auxiliou na compreensão dos endpoints, parâmetros e estruturas de requisição e resposta.
 
